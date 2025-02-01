@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
+import { share } from "rxjs/operators";
 
-var observable = Observable.create((observer: any) => {
+var observable = new Observable((observer: any) => {
   try {
     observer.next("Hey Guys");
     observer.next("How're you?");
@@ -12,7 +13,7 @@ var observable = Observable.create((observer: any) => {
   } catch (error) {
     observer.error(error);
   }
-});
+}).pipe(share());
 
 var observer = observable.subscribe(
   (x: any) => {
@@ -21,15 +22,12 @@ var observer = observable.subscribe(
   (error: any) => addItem(error),
   () => addItem("Completed")
 );
-var observer2 = observable.subscribe((x: any) => {
-  addItem(x);
-});
-
-observer.add(observer2);
 
 setTimeout(() => {
-  observer.unsubscribe();
-}, 6001);
+  var observer2 = observable.subscribe((x: any) =>
+    addItem("Subscriber 2 : " + x)
+  );
+}, 1000);
 
 function addItem(val: any) {
   var node = document.createElement("li");
