@@ -8,7 +8,7 @@ var observable = Observable.create((observer: any) => {
     // observer.next("Completed");
     setInterval(() => {
       observer.next("I am Good");
-    }, 2000);
+    }, 1000);
   } catch (error) {
     observer.error(error);
   }
@@ -21,6 +21,11 @@ var observer = observable.subscribe(
   (error: any) => addItem(error),
   () => addItem("Completed")
 );
+var observer2 = observable.subscribe((x: any) => {
+  addItem(x);
+});
+
+observer.add(observer2);
 
 setTimeout(() => {
   observer.unsubscribe();
