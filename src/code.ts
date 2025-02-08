@@ -1,6 +1,6 @@
-import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
+import { AsyncSubject, BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 
-const subject = new ReplaySubject(30, 200);
+const subject = new AsyncSubject();
 
 subject.subscribe(
   (data: any) => addItem(`Observer 1 Added data ${data}`),
@@ -15,6 +15,7 @@ setTimeout(() => {
   var observer2 = subject.subscribe((data: any) =>
     addItem(`Observer 2 Added data ${data}`)
   );
+  subject.complete();
 }, 5000);
 
 function addItem(val: any) {
