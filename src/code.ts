@@ -1,16 +1,18 @@
-import { Observable, fromEvent } from "rxjs";
+import { Subject } from "rxjs";
 
-var observable = fromEvent(document, "mousemove");
+var subject = new Subject();
 
-setTimeout(() => {
-  var subscription = observable.subscribe((x: any) => {
-    addItem(x);
-  });
-}, 2000);
+subject.subscribe(
+  (data: any) => addItem("Added data" + data),
+  (err: any) => addItem("There is an error : " + err),
+  () => addItem("Completed")
+);
+
+subject.next("Add Item");
 
 function addItem(val: any) {
-  var node = document.createElement("li");
-  var textNode = document.createTextNode(val);
+  const node = document.createElement("li");
+  const textNode = document.createTextNode(val);
   node.appendChild(textNode);
   document.getElementById("output").appendChild(node);
 }
