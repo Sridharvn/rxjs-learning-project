@@ -6,12 +6,17 @@ import {
   Observable,
   merge,
   map,
+  from,
 } from "rxjs";
 
-new Observable((observer) => {
-  observer.next("Hey there!");
-})
-  .pipe(map((val: string) => val.toUpperCase()))
+from([
+  { firstName: "Sridhar", lastName: "V N", age: "25" },
+  { firstName: "John", lastName: "Doe", age: "30" },
+  { firstName: "Jane", lastName: "Smith", age: "28" },
+  { firstName: "Alice", lastName: "Johnson", age: "35" },
+  { firstName: "Bob", lastName: "Brown", age: "40" },
+])
+  .pipe(map((person) => person.firstName))
   .subscribe((x: any) => addItem(x));
 
 function addItem(val: any) {
