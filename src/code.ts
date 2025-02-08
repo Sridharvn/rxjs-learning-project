@@ -16,6 +16,10 @@ var observer2 = subject.subscribe((data: any) =>
 subject.next("Second thing sent");
 subject.next("Third thing sent");
 
+observer2.unsubscribe();
+
+subject.next("The final thing has been sent");
+
 function addItem(val: any) {
   const node = document.createElement("li");
   const textNode = document.createTextNode(val);
