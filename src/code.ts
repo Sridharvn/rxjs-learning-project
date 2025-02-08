@@ -1,22 +1,22 @@
-import { AsyncSubject, BehaviorSubject, ReplaySubject, Subject } from "rxjs";
+import {
+  AsyncSubject,
+  BehaviorSubject,
+  ReplaySubject,
+  Subject,
+  Observable,
+  merge,
+} from "rxjs";
 
-const subject = new AsyncSubject();
+var observable = Observable.create((observer: any) => {
+  observer.next("Hey there!");
+});
+var observable2 = Observable.create((observer: any) => {
+  observer.next("How's it going?");
+});
 
-subject.subscribe(
-  (data: any) => addItem(`Observer 1 Added data ${data}`),
-  (err: any) => addItem(`There is an error : ${err}`),
-  () => addItem("Completed")
-);
-var i = 1;
-var int = setInterval(() => {
-  subject.next(i++);
-}, 1000);
-setTimeout(() => {
-  var observer2 = subject.subscribe((data: any) =>
-    addItem(`Observer 2 Added data ${data}`)
-  );
-  subject.complete();
-}, 5000);
+var newObs = merge(observable, observable2);
+
+newObs.subscribe((x) => addItem(x));
 
 function addItem(val: any) {
   const node = document.createElement("li");
