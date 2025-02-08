@@ -5,18 +5,14 @@ import {
   Subject,
   Observable,
   merge,
+  map,
 } from "rxjs";
 
-var observable = Observable.create((observer: any) => {
+new Observable((observer) => {
   observer.next("Hey there!");
-});
-var observable2 = Observable.create((observer: any) => {
-  observer.next("How's it going?");
-});
-
-var newObs = merge(observable, observable2);
-
-newObs.subscribe((x) => addItem(x));
+})
+  .pipe(map((val: string) => val.toUpperCase()))
+  .subscribe((x: any) => addItem(x));
 
 function addItem(val: any) {
   const node = document.createElement("li");
